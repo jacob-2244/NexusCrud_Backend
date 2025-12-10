@@ -14,7 +14,10 @@ import { UserModule } from './user/user.module';
       password: process.env.DB_PASS,
       database: process.env.DB_NAME,
       autoLoadEntities: true,
-      synchronize: true, // turn off in production if schema changes are risky
+      synchronize: true,
+      ssl: {
+        rejectUnauthorized: false, // Required for Supabase/cloud databases
+      },
     }),
     UserModule,
   ],
