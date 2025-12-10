@@ -14,6 +14,9 @@ import { UserModule } from './user/user.module';
       ssl: {
         rejectUnauthorized: false,
       },
+       extra: {
+    family: 4, // IMPORTANT: force IPv4
+  },
     }),
     UserModule,
   ],
