@@ -9,27 +9,29 @@ async function bootstrap() {
 
   const isProduction = process.env.NODE_ENV === 'production';
 
-
-  const localFrontend = 'http://localhost:3001';
+  const allowedOrigins = [
+    'http://localhost:3000',
+    'http://localhost:3001',
+    'http://127.0.0.1:3000',
+  ];
 
   app.enableCors({
     origin: (origin, callback) => {
-      if (!origin) return callback(null, true); 
+      // Allow tools like Postman / curl
+      if (!origin) return callback(null, true);
 
       if (!isProduction) {
-        // In dev, only allow local frontend
-        if (origin === localFrontend) {
-          callback(null, true);
-        } else {
-          callback(new Error('Not allowed by CORS'));
+        if (allowedOrigins.includes(origin)) {
+          return callback(null, true);
         }
-      } else {
-        // In production, allow any origin (your deployed frontend will work automatically)
-        callback(null, true);
+        return callback(new Error(`Not allowed by CORS: ${origin}`));
       }
+
+      // Production: allow deployed frontend
+      return callback(null, true);
     },
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
   });
 
   const port = parseInt(process.env.PORT || '3000');
