@@ -8,13 +8,15 @@ import { UserModule } from './user/user.module';
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: process.env.DB_HOST,
-      port: parseInt(process.env.DB_PORT || '5432'),
-      username: process.env.DB_USER,
-      password: process.env.DB_PASS,
-      database: process.env.DB_NAME,
+      url: process.env.DATABASE_URL, // Single connection string
       autoLoadEntities: true,
-      synchronize: true, // turn off in production if schema changes are risky
+      synchronize: true,
+      ssl: {
+        rejectUnauthorized: false,
+      },
+       extra: {
+    family: 4, // IMPORTANT: force IPv4
+  },
     }),
     UserModule,
   ],
