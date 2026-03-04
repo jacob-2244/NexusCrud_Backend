@@ -13,6 +13,8 @@ async function bootstrap() {
     'http://localhost:3000',
     'http://localhost:3001',
     'http://127.0.0.1:3000',
+    'http://192.168.10.195:3001',  // Device IP for supervisor access
+    'http://192.168.10.195:3000',  // Device IP alternate port
   ];
 
   app.enableCors({
@@ -35,8 +37,9 @@ async function bootstrap() {
   });
 
   const port = parseInt(process.env.PORT || '3000');
-  await app.listen(port);
-  console.log(`Backend running on port ${port}`);
+  await app.listen(port, '0.0.0.0');
+  console.log(`Backend running on http://0.0.0.0:${port}`);
+  console.log(`Available at: http://192.168.10.195:${port}`);
 }
 
 bootstrap();
