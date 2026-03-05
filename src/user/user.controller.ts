@@ -1,39 +1,44 @@
-
 import { Body, Controller, Get, Param, Post, Patch, Delete } from '@nestjs/common';
 import { UserService } from './user.service';
-
+import { UserRole } from './user.entity';
 
 @Controller('users')
 export class UserController {
-constructor(private userService:UserService){}
+  constructor(private readonly userService: UserService) {}
 
+  // Create a new user
+  @Post()
+  create(@Body() body: { name: string; email: string; role?: UserRole }) {
+    return this.userService.create(body.name, body.email, body.role);
+  }
 
-@Post()
-create(@Body() body:{name:string, email:string}){
-    return this.userService.create(body.name, body.email)
-}
+  // Login with email
+  @Post('login')
+  login(@Body() body: { email: string }) {
+    return this.userService.login(body.email);
+  }
 
-@Delete(":id")
-remove(@Param("id") id:string ){
-    return this.userService.remove(parseInt(id))
-}
+  // Get all users
+  @Get()
+  findAll() {
+    return this.userService.findAll();
+  }
 
+  // Get a single user by id
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.userService.findOne(parseInt(id));
+  }
 
-@Get()
-findAll(){
-    return this.userService.findAll()
-}
+  // Update a user by id
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() body: Partial<{ name: string; email: string; role: UserRole }>) {
+    return this.userService.update(parseInt(id), body);
+  }
 
-@Get(":id")
-findOne(@Param("id") id:string){
-    return this.userService.findOne(parseInt(id))
-
-}
-
-@Patch(":id")
-update(@Param("id") id:string, @Body() body ){
-    return this.userService.update(parseInt(id), body)
-
-}
-
+  // Delete a user by id
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.userService.remove(parseInt(id));
+  }
 }
