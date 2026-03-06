@@ -10,7 +10,7 @@ export class UserService {
     private repo: Repository<Users>,
   ) { }
 
-  async create(name: string, email: string, role: UserRole = UserRole.USER) {
+  async create(name: string, email: string, role: UserRole = UserRole.MANAGER) {
 
     try {
   const user = this.repo.create({ name, email, role });

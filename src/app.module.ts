@@ -11,8 +11,8 @@ import { UserModule } from './user/user.module';
       host: process.env.DB_HOST || 'localhost',
       port: parseInt(process.env.DB_PORT || '5432'),
       username: process.env.DB_USER || 'postgres',
-      password: process.env.DB_PASSWORD || 'postgres',
-      database: process.env.DB_NAME || 'nexus_crud_db',
+      password: process.env.DB_PASSWORD || process.env.DB_PASS || 'postgres',
+      database: process.env.DB_NAME || 'Crud_db',
       autoLoadEntities: true,
       synchronize: true,
       ssl: process.env.DB_HOST && !process.env.DB_HOST.includes('localhost')

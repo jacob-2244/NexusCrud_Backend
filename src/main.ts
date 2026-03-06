@@ -15,6 +15,7 @@ async function bootstrap() {
     'http://127.0.0.1:3000',
     'http://192.168.10.195:3001',  // Device IP for supervisor access
     'http://192.168.10.195:3000',  // Device IP alternate port
+    'http://192.168.56.1:3000',    // VM / VirtualBox host network
   ];
 
   app.enableCors({
